@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&amp;family=Montserrat:wght@400;500&amp;display=swap');
+      .logo-main {
+        font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+        font-size: 56px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        fill: #8B6F4E;
+      }
+      .logo-sub {
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.46em;
+        fill: #6B5E54;
+        text-transform: uppercase;
+      }
+      .logo-flourish {
+        fill: none;
+        stroke: #8B6F4E;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .logo-leaf {
+        fill: #8B6F4E;
+      }
+    </style>
+  </defs>
+
+  <!-- Main Brand Name -->
+  <text x="5" y="56" class="logo-main">CAREFREE</text>
+
+  <!-- Subtitle -->
+  <text x="180" y="82" class="logo-sub">SHOPPING</text>
+
+  <!-- Elegant Decorative Flourish under R -->
+  <path d="M 170 54 Q 165 72 135 78 Q 110 82 85 78" class="logo-flourish" />
+  <path d="M 135 78 Q 148 76 156 82 Q 162 87 154 91 Q 146 93 142 86 Q 140 80 150 78" class="logo-flourish" />
+  
+  <!-- Subtle Leaf Detail -->
+  <path d="M 158 80 C 164 76 170 77 172 82 C 168 85 162 84 158 80 Z" class="logo-leaf" />
+  <path d="M 166 76 C 171 72 176 73 177 77 C 173 80 169 79 166 76 Z" class="logo-leaf" />
+</svg>
