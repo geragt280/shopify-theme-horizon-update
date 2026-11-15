@@ -52,7 +52,7 @@
             "logo_about": {
               "type": "logo",
               "settings": {
-                "inverse": true,
+                "inverse": false,
                 "pixel_height": 28,
                 "padding-block-start": 0,
                 "padding-block-end": 6,
