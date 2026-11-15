@@ -1,0 +1,7 @@
+# Files and directories ignored by Shopify CLI
+.git/
+.gitignore
+.shopifyignore
+brand_assets/
+scratch/
+*.md

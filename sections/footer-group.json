@@ -53,9 +53,10 @@
               "type": "logo",
               "settings": {
                 "inverse": false,
-                "pixel_height": 28,
+                "unit": "pixel",
+                "pixel_height": 32,
                 "padding-block-start": 0,
-                "padding-block-end": 6,
+                "padding-block-end": 8,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
