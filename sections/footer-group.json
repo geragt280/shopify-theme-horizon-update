@@ -49,25 +49,13 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "text_about_heading": {
-              "type": "text",
+            "logo_about": {
+              "type": "logo",
               "settings": {
-                "text": "<h3>Carefree Shopping</h3>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h5",
-                "font": "var(--font-body--family)",
-                "font_size": "0.8125rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "uppercase",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
+                "inverse": true,
+                "pixel_height": 28,
                 "padding-block-start": 0,
-                "padding-block-end": 0,
+                "padding-block-end": 6,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
@@ -99,7 +87,7 @@
             }
           },
           "block_order": [
-            "text_about_heading",
+            "logo_about",
             "text_about_body"
           ]
         },
