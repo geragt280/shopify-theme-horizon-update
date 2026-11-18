@@ -250,7 +250,9 @@
       "name": "t:names.collection_list",
       "settings": {
         "collection_list": [
-          "custom-this-is-new-collection"
+          "ready-to-wear",
+          "printed-lawn",
+          "embroidered-lawn"
         ],
         "layout_type": "grid",
         "carousel_on_mobile": true,
