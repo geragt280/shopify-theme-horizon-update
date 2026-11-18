@@ -268,11 +268,46 @@ select:focus,
    Product Card Enhancements
    ========================================================================== */
 
-.product-card, .card-wrapper {
+.product-card,
+.card-wrapper {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 8px;
 }
 
-.product-card:hover, .card-wrapper:hover {
+.product-card,
+.product-card__content,
+.product-grid__card {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.product-card__content,
+.product-grid__card {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Flatten bottom corners of media when title/price details follow */
+.product-grid__card:has(> :nth-child(2)) .card-gallery,
+.product-card__content:has(> :nth-child(2)) .card-gallery {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+/* Ensure product card details have comfortable padding and don't touch edges */
+.product-grid__card .text-block,
+.product-card__content .text-block {
+  padding-inline-start: max(var(--padding-inline-start, 0px), 12px);
+  padding-inline-end: max(var(--padding-inline-end, 0px), 12px);
+}
+
+.product-grid__card .price,
+.product-card__content .price {
+  padding-block-end: max(var(--padding-block-end, 0px), 14px);
+}
+
+.product-card:hover,
+.card-wrapper:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 20px rgba(44, 36, 32, 0.08);
 }
