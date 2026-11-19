@@ -122,6 +122,16 @@
         "padding-block-end": 80
       }
     },
+    "category_pills_section": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div class=\"category-pills-wrap\">\n  <div class=\"category-pills-scroll\">\n    <a href=\"/collections/clothing\" class=\"category-pill\">\n      <div class=\"category-pill__circle\">👗</div>\n      <span class=\"category-pill__label\">Clothing</span>\n      <span class=\"category-pill__sub\">Pret &amp; Lawn</span>\n    </a>\n    <a href=\"/collections/footwear\" class=\"category-pill\">\n      <div class=\"category-pill__circle\">👠</div>\n      <span class=\"category-pill__label\">Footwear</span>\n      <span class=\"category-pill__sub\">Khussas &amp; Heels</span>\n    </a>\n    <a href=\"/collections/headwear\" class=\"category-pill\">\n      <div class=\"category-pill__circle\">🧕</div>\n      <span class=\"category-pill__label\">Headwear</span>\n      <span class=\"category-pill__sub\">Shawls &amp; Hijabs</span>\n    </a>\n    <a href=\"/collections/accessories\" class=\"category-pill\">\n      <div class=\"category-pill__circle\">👜</div>\n      <span class=\"category-pill__label\">Accessories</span>\n      <span class=\"category-pill__sub\">Bags &amp; Clutches</span>\n    </a>\n    <a href=\"#shop-by-brand\" class=\"category-pill\">\n      <div class=\"category-pill__circle\">🏷️</div>\n      <span class=\"category-pill__label\">Brands</span>\n      <span class=\"category-pill__sub\">Top Designers</span>\n    </a>\n    <a href=\"/collections/sale\" class=\"category-pill\">\n      <div class=\"category-pill__circle category-pill__circle--sale\">🔥</div>\n      <span class=\"category-pill__label\" style=\"color: #C0392B;\">Sale</span>\n      <span class=\"category-pill__sub\">Up to 50% Off</span>\n    </a>\n  </div>\n</div>",
+        "section_width": "full-width",
+        "background_color": "#FAF7F2",
+        "padding-block-start": 36,
+        "padding-block-end": 20
+      }
+    },
     "trust_badges_section": {
       "type": "custom-liquid",
       "settings": {
@@ -179,7 +189,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<h2>Shop by Category</h2>",
+                "text": "<h2>Shop by Department</h2>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -250,13 +260,14 @@
       "name": "t:names.collection_list",
       "settings": {
         "collection_list": [
-          "ready-to-wear",
-          "printed-lawn",
-          "embroidered-lawn"
+          "clothing",
+          "footwear",
+          "headwear",
+          "accessories"
         ],
         "layout_type": "grid",
         "carousel_on_mobile": true,
-        "columns": 3,
+        "columns": 4,
         "mobile_columns": "2",
         "mobile_card_size": "60cqw",
         "columns_gap": 16,
@@ -471,6 +482,16 @@
         "padding-block-end": 56
       }
     },
+    "brand_showcase_section": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div id=\"shop-by-brand\" class=\"brand-showcase-section\">\n  <div class=\"brand-showcase-header\">\n    <h2>Shop by Brand</h2>\n    <p>Authentic designer collections from Pakistan's most loved fashion labels</p>\n  </div>\n  <div class=\"brand-grid\">\n    <a href=\"/collections/asim-jofa\" class=\"brand-card\">\n      <span class=\"brand-card__tag\">Luxury Apparel</span>\n      <span class=\"brand-card__name\">Asim Jofa</span>\n      <span class=\"brand-card__desc\">Stitched &amp; Unstitched</span>\n      <span class=\"brand-card__arrow\">View Collection →</span>\n    </a>\n    <a href=\"/collections/baroque\" class=\"brand-card\">\n      <span class=\"brand-card__tag\">Chantelle &amp; Swiss</span>\n      <span class=\"brand-card__name\">Baroque</span>\n      <span class=\"brand-card__desc\">Festive &amp; Formals</span>\n      <span class=\"brand-card__arrow\">View Collection →</span>\n    </a>\n    <a href=\"/collections/sana-safinaz\" class=\"brand-card\">\n      <span class=\"brand-card__tag\">Contemporary Style</span>\n      <span class=\"brand-card__name\">Sana Safinaz</span>\n      <span class=\"brand-card__desc\">Muzlin &amp; Luxury Silk</span>\n      <span class=\"brand-card__arrow\">View Collection →</span>\n    </a>\n    <a href=\"/collections/stylo\" class=\"brand-card\">\n      <span class=\"brand-card__tag\">Footwear &amp; Bags</span>\n      <span class=\"brand-card__name\">Stylo</span>\n      <span class=\"brand-card__desc\">Khussas, Heels &amp; Flats</span>\n      <span class=\"brand-card__arrow\">View Collection →</span>\n    </a>\n    <a href=\"/collections/maria-b\" class=\"brand-card\">\n      <span class=\"brand-card__tag\">Couture &amp; Linen</span>\n      <span class=\"brand-card__name\">Maria.B</span>\n      <span class=\"brand-card__desc\">Bridal &amp; Luxury Pret</span>\n      <span class=\"brand-card__arrow\">View Collection →</span>\n    </a>\n    <a href=\"/collections/insignia\" class=\"brand-card\">\n      <span class=\"brand-card__tag\">Luxury Footwear</span>\n      <span class=\"brand-card__name\">Insignia</span>\n      <span class=\"brand-card__desc\">Bespoke Shoes &amp; Clutches</span>\n      <span class=\"brand-card__arrow\">View Collection →</span>\n    </a>\n    <a href=\"/collections/sapphire\" class=\"brand-card\">\n      <span class=\"brand-card__tag\">Everyday Comfort</span>\n      <span class=\"brand-card__name\">Sapphire</span>\n      <span class=\"brand-card__desc\">Daily Pret &amp; West</span>\n      <span class=\"brand-card__arrow\">View Collection →</span>\n    </a>\n    <a href=\"/collections/khaadi\" class=\"brand-card\">\n      <span class=\"brand-card__tag\">Heritage Weaves</span>\n      <span class=\"brand-card__name\">Khaadi</span>\n      <span class=\"brand-card__desc\">Prints, Solids &amp; Shawls</span>\n      <span class=\"brand-card__arrow\">View Collection →</span>\n    </a>\n  </div>\n</div>",
+        "background_color": "#FAF7F2",
+        "section_width": "page-width",
+        "padding-block-start": 64,
+        "padding-block-end": 64
+      }
+    },
     "testimonials_section": {
       "type": "custom-liquid",
       "settings": {
@@ -494,9 +515,11 @@
   },
   "order": [
     "hero_jVaWmY",
+    "category_pills_section",
     "trust_badges_section",
     "collection_list_featured",
     "product_list_fa6P9H",
+    "brand_showcase_section",
     "testimonials_section",
     "instagram_cta_section"
   ]
