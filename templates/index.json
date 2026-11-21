@@ -142,145 +142,68 @@
         "padding-block-end": 36
       }
     },
-    "collection_list_featured": {
-      "type": "collection-list",
+    "category_feature_cards": {
+      "type": "category-feature-cards",
       "blocks": {
-        "group_header": {
-          "type": "group",
-          "name": "t:names.header",
+        "cat_card_clothing": {
+          "type": "category_card",
           "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "space-between",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "background_media": "none",
-            "background_color": "",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "text_heading": {
-              "type": "text",
-              "name": "t:names.text",
-              "settings": {
-                "text": "<h2>Shop by Department</h2>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h3",
-                "font": "var(--font-heading--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_heading"
-          ]
+            "collection": "clothing",
+            "title": "Clothing",
+            "subtitle": "Signature Embroidered Luxury",
+            "pill_1": "Pure Lawn",
+            "pill_2": "Stitched 2 & 3pc",
+            "pill_3": "Asim Jofa & More",
+            "highlight_title": "Bestselling Collection",
+            "stat_sold": "8.5k+ sold",
+            "stat_wishlisted": "4.2k+ wishlisted",
+            "badge_trending": "TRENDING"
+          }
         },
-        "static-collection-card": {
-          "type": "_collection-card",
-          "name": "t:names.collection_card",
-          "static": true,
+        "cat_card_footwear": {
+          "type": "category_card",
           "settings": {
-            "placement": "on_image",
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "collection_card_gap": 8,
-            "background_color": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 8
-          },
-          "blocks": {
-            "collection-card-image": {
-              "type": "_collection-card-image",
-              "static": true,
-              "settings": {
-                "image_ratio": "portrait",
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": []
+            "collection": "footwear",
+            "title": "Footwear",
+            "subtitle": "Handcrafted Comfort Slides",
+            "pill_1": "Genuine Leather",
+            "pill_2": "Cushioned Sole",
+            "pill_3": "All-Day Comfort",
+            "highlight_title": "Top Rated Choice",
+            "stat_sold": "3.5k+ sold",
+            "stat_wishlisted": "2.1k+ wishlisted",
+            "badge_trending": "HOT PICK"
+          }
+        },
+        "cat_card_headwear": {
+          "type": "category_card",
+          "settings": {
+            "collection": "headwear",
+            "title": "Headwear",
+            "subtitle": "Classic Fedora & Casual Caps",
+            "pill_1": "100% Wool / Cotton",
+            "pill_2": "Structured Fit",
+            "pill_3": "UV Protection",
+            "highlight_title": "Limited Edition",
+            "stat_sold": "1.8k+ sold",
+            "stat_wishlisted": "950+ wishlisted",
+            "badge_trending": "TRENDING"
+          }
         }
       },
       "block_order": [
-        "group_header"
+        "cat_card_clothing",
+        "cat_card_footwear",
+        "cat_card_headwear"
       ],
-      "name": "t:names.collection_list",
       "settings": {
-        "collection_list": [
-          "clothing",
-          "footwear",
-          "headwear",
-          "accessories"
-        ],
-        "layout_type": "grid",
-        "carousel_on_mobile": true,
-        "columns": 4,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 16,
-        "bento_gap": 8,
-        "rows_gap": 24,
-        "max_collections": 4,
-        "icons_style": "arrow",
-        "icons_shape": "none",
+        "heading": "Shop by Department",
+        "subheading": "Explore our curated lifestyle and fashion collections",
+        "heading_alignment": "left",
         "section_width": "page-width",
-        "gap": 28,
         "background_color": "#faf7f2",
-        "padding-block-start": 56,
-        "padding-block-end": 56
+        "padding_top": 56,
+        "padding_bottom": 56
       }
     },
     "product_list_fa6P9H": {
@@ -517,7 +440,7 @@
     "hero_jVaWmY",
     "category_pills_section",
     "trust_badges_section",
-    "collection_list_featured",
+    "category_feature_cards",
     "product_list_fa6P9H",
     "brand_showcase_section",
     "testimonials_section",

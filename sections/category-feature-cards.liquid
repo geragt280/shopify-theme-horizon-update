@@ -1,0 +1,614 @@
+{%- doc -%}
+  Category Feature Cards Showcase
+  Displays modern, high-converting category cards with dynamic collection binding,
+  spec pills, circular action buttons, and social proof metrics.
+{%- enddoc -%}
+
+<style>
+  .cat-feature-cards-section {
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .cat-feature-cards__container {
+    margin-inline: auto;
+    padding-inline: var(--section-padding-inline, 1.5rem);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .cat-feature-cards__container.page-width {
+    max-width: 1360px;
+  }
+
+  .cat-feature-cards__header {
+    margin-bottom: 2rem;
+  }
+
+  .cat-feature-cards__header--left {
+    text-align: left;
+  }
+
+  .cat-feature-cards__header--center {
+    text-align: center;
+  }
+
+  .cat-feature-cards__title {
+    font-family: var(--font-heading--family, serif);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: var(--color-warm-fg, #2C2420);
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.01em;
+  }
+
+  .cat-feature-cards__subtitle {
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 0.9375rem;
+    color: var(--color-warm-sec, #6B5E54);
+    margin: 0;
+  }
+
+  /* Grid Layout */
+  .cat-feature-cards__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  /* Card Item */
+  .cat-feature-card {
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid #ECECEC;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), 
+                box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1), 
+                border-color 0.35s ease;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .cat-feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(44, 36, 32, 0.09);
+    border-color: #D6CBC0;
+  }
+
+  .cat-feature-card__overlay-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    text-indent: -9999px;
+  }
+
+  /* Zone 1: Header (Title + Subtitle + Circular Button) */
+  .cat-feature-card__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .cat-feature-card__title-group {
+    flex: 1;
+  }
+
+  .cat-feature-card__name {
+    font-family: var(--font-heading--family, serif);
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #1A1A1A;
+    line-height: 1.25;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.01em;
+  }
+
+  .cat-feature-card__tagline {
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 0.8125rem;
+    color: #6B7280;
+    margin: 0;
+    line-height: 1.35;
+  }
+
+  .cat-feature-card__btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #1E2530;
+    color: #FFFFFF;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color 0.25s ease, transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 2;
+  }
+
+  .cat-feature-card:hover .cat-feature-card__btn {
+    background-color: var(--color-warm-accent, #8B6F4E);
+    transform: translateX(3px);
+  }
+
+  /* Zone 2: Pills / Specs */
+  .cat-feature-card__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .cat-feature-card__pill {
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 100px;
+    background-color: #F3F4F6;
+    color: #374151;
+    border: 1px solid #E5E7EB;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+
+  .cat-feature-card__pill--highlight {
+    background-color: #1E2530;
+    color: #FFFFFF;
+    border-color: #1E2530;
+    font-weight: 600;
+  }
+
+  /* Zone 3: Featured Image Container */
+  .cat-feature-card__media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: #F8F9FA;
+    margin-bottom: 18px;
+  }
+
+  .cat-feature-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .cat-feature-card:hover .cat-feature-card__img {
+    transform: scale(1.06);
+  }
+
+  .cat-feature-card__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Zone 4: Bottom Meta & Social Proof */
+  .cat-feature-card__bottom {
+    padding-top: 2px;
+  }
+
+  .cat-feature-card__highlight-title {
+    font-family: var(--font-heading--family, serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
+  }
+
+  .cat-feature-card__metrics {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 0.75rem;
+    color: #6B7280;
+    font-weight: 500;
+  }
+
+  .cat-feature-card__metric {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .cat-dot--green {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #10B981;
+    display: inline-block;
+  }
+
+  .cat-icon-heart {
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .cat-icon-bolt {
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .cat-feature-card__metric--trending {
+    color: #D946EF;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+  }
+
+  /* Responsive Breakpoints */
+  @media screen and (max-width: 989px) {
+    .cat-feature-cards__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .cat-feature-cards__grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .cat-feature-card {
+      padding: 18px;
+      border-radius: 16px;
+    }
+
+    .cat-feature-card__name {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
+<div
+  class="cat-feature-cards-section"
+  style="background-color: {{ section.settings.background_color }}; padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="cat-feature-cards__container {{ section.settings.section_width }}">
+    {% if section.settings.heading != blank or section.settings.subheading != blank %}
+      <div class="cat-feature-cards__header cat-feature-cards__header--{{ section.settings.heading_alignment }}">
+        {% if section.settings.heading != blank %}
+          <h2 class="cat-feature-cards__title">{{ section.settings.heading }}</h2>
+        {% endif %}
+        {% if section.settings.subheading != blank %}
+          <p class="cat-feature-cards__subtitle">{{ section.settings.subheading }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="cat-feature-cards__grid">
+      {% for block in section.blocks %}
+        {% liquid
+          assign collection = block.settings.collection
+          assign card_title = block.settings.title | default: collection.title
+          if card_title == blank
+            assign card_title = 'Category ' | append: forloop.index
+          endif
+
+          assign card_url = collection.url | default: '#'
+          assign card_image = block.settings.custom_image | default: collection.image
+          if card_image == blank and collection.products.first.featured_image != blank
+            assign card_image = collection.products.first.featured_image
+          endif
+        %}
+
+        <div class="cat-feature-card" {{ block.shopify_attributes }}>
+          <a href="{{ card_url }}" class="cat-feature-card__overlay-link" aria-label="{{ card_title }}">
+            {{ card_title }}
+          </a>
+
+          <!-- Top: Title, Subtitle & Circular Arrow Button -->
+          <div class="cat-feature-card__top">
+            <div class="cat-feature-card__title-group">
+              <h3 class="cat-feature-card__name">{{ card_title }}</h3>
+              {% if block.settings.subtitle != blank %}
+                <p class="cat-feature-card__tagline">{{ block.settings.subtitle }}</p>
+              {% endif %}
+            </div>
+
+            <a href="{{ card_url }}" class="cat-feature-card__btn" aria-label="Explore {{ card_title }}">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Feature / Spec Pills -->
+          {% if block.settings.pill_1 != blank or block.settings.pill_2 != blank or block.settings.pill_3 != blank %}
+            <div class="cat-feature-card__pills">
+              {% if block.settings.pill_1 != blank %}
+                <span class="cat-feature-card__pill">{{ block.settings.pill_1 }}</span>
+              {% endif %}
+              {% if block.settings.pill_2 != blank %}
+                <span class="cat-feature-card__pill">{{ block.settings.pill_2 }}</span>
+              {% endif %}
+              {% if block.settings.pill_3 != blank %}
+                <span class="cat-feature-card__pill cat-feature-card__pill--highlight">{{ block.settings.pill_3 }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <!-- Central Image -->
+          <div class="cat-feature-card__media">
+            {% if card_image != blank %}
+              {{
+                card_image
+                | image_url: width: 900
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'cat-feature-card__img',
+                  alt: card_title
+              }}
+            {% else %}
+              {{ 'collection-1' | placeholder_svg_tag: 'cat-feature-card__placeholder' }}
+            {% endif %}
+          </div>
+
+          <!-- Bottom: Headline & Social Proof -->
+          <div class="cat-feature-card__bottom">
+            {% if block.settings.highlight_title != blank %}
+              <h4 class="cat-feature-card__highlight-title">{{ block.settings.highlight_title }}</h4>
+            {% endif %}
+
+            <div class="cat-feature-card__metrics">
+              {% if block.settings.stat_sold != blank %}
+                <span class="cat-feature-card__metric">
+                  <span class="cat-dot--green"></span>
+                  {{ block.settings.stat_sold }}
+                </span>
+              {% endif %}
+
+              {% if block.settings.stat_wishlisted != blank %}
+                <span class="cat-feature-card__metric">
+                  <svg class="cat-icon-heart" viewBox="0 0 24 24" width="13" height="13" fill="#E11D48">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                  </svg>
+                  {{ block.settings.stat_wishlisted }}
+                </span>
+              {% endif %}
+
+              {% if block.settings.badge_trending != blank %}
+                <span class="cat-feature-card__metric cat-feature-card__metric--trending">
+                  <svg class="cat-icon-bolt" viewBox="0 0 24 24" width="13" height="13" fill="#EAB308">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                  </svg>
+                  {{ block.settings.badge_trending }}
+                </span>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Category Feature Cards",
+  "tag": "section",
+  "class": "section-category-feature-cards",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Department"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Explore our curated lifestyle and fashion collections"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page width"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#FAF7F2"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_card",
+      "name": "Category Card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection (Dynamic)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title Override (optional)",
+          "info": "Leave blank to automatically use the selected collection title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle / Tagline",
+          "default": "Signature Embroidered Luxury"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Image (optional)",
+          "info": "Leave blank to automatically use collection image"
+        },
+        {
+          "type": "header",
+          "content": "Feature / Spec Pills"
+        },
+        {
+          "type": "text",
+          "id": "pill_1",
+          "label": "Pill 1",
+          "default": "Pure Lawn"
+        },
+        {
+          "type": "text",
+          "id": "pill_2",
+          "label": "Pill 2",
+          "default": "Stitched 2 & 3pc"
+        },
+        {
+          "type": "text",
+          "id": "pill_3",
+          "label": "Pill 3 (Highlighted Dark)",
+          "default": "Ready to Ship"
+        },
+        {
+          "type": "header",
+          "content": "Bottom Highlights & Metrics"
+        },
+        {
+          "type": "text",
+          "id": "highlight_title",
+          "label": "Bottom Highlight Title",
+          "default": "Worth to Buy"
+        },
+        {
+          "type": "text",
+          "id": "stat_sold",
+          "label": "Sold Metric",
+          "default": "5k+ sold"
+        },
+        {
+          "type": "text",
+          "id": "stat_wishlisted",
+          "label": "Wishlisted Metric",
+          "default": "4k+ wishlisted"
+        },
+        {
+          "type": "text",
+          "id": "badge_trending",
+          "label": "Trending Tag",
+          "default": "TRENDING"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Feature Cards",
+      "blocks": [
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "Clothing",
+            "subtitle": "Signature Embroidered Luxury",
+            "pill_1": "Pure Lawn",
+            "pill_2": "Stitched 2 & 3pc",
+            "pill_3": "Asim Jofa & More",
+            "highlight_title": "Bestselling Collection",
+            "stat_sold": "8.5k+ sold",
+            "stat_wishlisted": "4.2k+ wishlisted",
+            "badge_trending": "TRENDING"
+          }
+        },
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "Footwear",
+            "subtitle": "Handcrafted Comfort Slides",
+            "pill_1": "Genuine Leather",
+            "pill_2": "Cushioned Sole",
+            "pill_3": "All-Day Comfort",
+            "highlight_title": "Top Rated Choice",
+            "stat_sold": "3.5k+ sold",
+            "stat_wishlisted": "2.1k+ wishlisted",
+            "badge_trending": "HOT PICK"
+          }
+        },
+        {
+          "type": "category_card",
+          "settings": {
+            "title": "Headwear",
+            "subtitle": "Classic Fedora & Casual Caps",
+            "pill_1": "100% Wool / Cotton",
+            "pill_2": "Structured Fit",
+            "pill_3": "UV Protection",
+            "highlight_title": "Limited Edition",
+            "stat_sold": "1.8k+ sold",
+            "stat_wishlisted": "950+ wishlisted",
+            "badge_trending": "TRENDING"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
