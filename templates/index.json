@@ -148,11 +148,13 @@
         "cat_card_clothing": {
           "type": "category_card",
           "settings": {
-            "collection": "clothing",
             "title": "Clothing",
             "subtitle": "Signature Embroidered Luxury",
+            "collection_1": "clothing",
             "pill_1": "Pure Lawn",
+            "collection_2": "bestsellers",
             "pill_2": "Stitched 2 & 3pc",
+            "collection_3": "clothing",
             "pill_3": "Asim Jofa & More",
             "highlight_title": "Bestselling Collection",
             "stat_sold": "8.5k+ sold",
@@ -163,11 +165,13 @@
         "cat_card_footwear": {
           "type": "category_card",
           "settings": {
-            "collection": "footwear",
             "title": "Footwear",
             "subtitle": "Handcrafted Comfort Slides",
+            "collection_1": "footwear",
             "pill_1": "Genuine Leather",
+            "collection_2": "bestsellers",
             "pill_2": "Cushioned Sole",
+            "collection_3": "footwear",
             "pill_3": "All-Day Comfort",
             "highlight_title": "Top Rated Choice",
             "stat_sold": "3.5k+ sold",
@@ -178,11 +182,13 @@
         "cat_card_headwear": {
           "type": "category_card",
           "settings": {
-            "collection": "headwear",
             "title": "Headwear",
             "subtitle": "Classic Fedora & Casual Caps",
+            "collection_1": "headwear",
             "pill_1": "100% Wool / Cotton",
+            "collection_2": "bestsellers",
             "pill_2": "Structured Fit",
+            "collection_3": "headwear",
             "pill_3": "UV Protection",
             "highlight_title": "Limited Edition",
             "stat_sold": "1.8k+ sold",
@@ -202,6 +208,7 @@
         "heading_alignment": "left",
         "section_width": "page-width",
         "background_color": "#faf7f2",
+        "autoplay_interval": 4,
         "padding_top": 56,
         "padding_bottom": 56
       }

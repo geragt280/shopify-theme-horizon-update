@@ -1,7 +1,7 @@
 {%- doc -%}
   Category Feature Cards Showcase
-  Displays modern, high-converting category cards with dynamic collection binding,
-  spec pills, circular action buttons, and social proof metrics.
+  Displays modern, high-converting category cards with dynamic collection binding.
+  Auto-rotates collection tags and images every 4 seconds (with cross-fade and active tag highlight).
 {%- enddoc -%}
 
 <style>
@@ -96,6 +96,8 @@
     align-items: flex-start;
     gap: 12px;
     margin-bottom: 14px;
+    position: relative;
+    z-index: 2;
   }
 
   .cat-feature-card__title-group {
@@ -132,6 +134,7 @@
     flex-shrink: 0;
     transition: background-color 0.25s ease, transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
     z-index: 2;
+    text-decoration: none;
   }
 
   .cat-feature-card:hover .cat-feature-card__btn {
@@ -139,35 +142,49 @@
     transform: translateX(3px);
   }
 
-  /* Zone 2: Pills / Specs */
+  /* Zone 2: Pills / Tags (Interactive & Rotatable) */
   .cat-feature-card__pills {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 18px;
+    position: relative;
+    z-index: 3;
   }
 
   .cat-feature-card__pill {
     font-family: var(--font-body--family, sans-serif);
     font-size: 0.72rem;
     font-weight: 500;
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: 100px;
     background-color: #F3F4F6;
     color: #374151;
     border: 1px solid #E5E7EB;
     white-space: nowrap;
     line-height: 1.2;
+    cursor: pointer;
+    transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, transform 0.2s ease;
+    user-select: none;
+    outline: none;
+    text-decoration: none;
   }
 
+  .cat-feature-card__pill:hover {
+    border-color: #CBD5E1;
+    transform: translateY(-1px);
+  }
+
+  /* Active / Highlighted Pill (Dark Background) */
   .cat-feature-card__pill--highlight {
-    background-color: #1E2530;
-    color: #FFFFFF;
-    border-color: #1E2530;
+    background-color: #1E2530 !important;
+    color: #FFFFFF !important;
+    border-color: #1E2530 !important;
     font-weight: 600;
+    box-shadow: 0 2px 8px rgba(30, 37, 48, 0.22);
   }
 
-  /* Zone 3: Featured Image Container */
+  /* Zone 3: Featured Image Container with Smooth Cross-Fade */
   .cat-feature-card__media {
     position: relative;
     width: 100%;
@@ -176,29 +193,54 @@
     overflow: hidden;
     background-color: #F8F9FA;
     margin-bottom: 18px;
+    z-index: 1;
   }
 
   .cat-feature-card__img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: scale(1);
+    will-change: opacity, transform;
   }
 
-  .cat-feature-card:hover .cat-feature-card__img {
+  .cat-feature-card__img.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+  }
+
+  .cat-feature-card:hover .cat-feature-card__img.is-active {
     transform: scale(1.06);
   }
 
   .cat-feature-card__placeholder {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease;
+  }
+
+  .cat-feature-card__placeholder.is-active {
+    opacity: 1;
+    visibility: visible;
   }
 
   /* Zone 4: Bottom Meta & Social Proof */
   .cat-feature-card__bottom {
     padding-top: 2px;
+    position: relative;
+    z-index: 2;
   }
 
   .cat-feature-card__highlight-title {
@@ -297,21 +339,56 @@
     <div class="cat-feature-cards__grid">
       {% for block in section.blocks %}
         {% liquid
-          assign collection = block.settings.collection
-          assign card_title = block.settings.title | default: collection.title
+          assign card_title = block.settings.title
           if card_title == blank
             assign card_title = 'Category ' | append: forloop.index
           endif
 
-          assign card_url = collection.url | default: '#'
-          assign card_image = block.settings.custom_image | default: collection.image
-          if card_image == blank and collection.products.first.featured_image != blank
-            assign card_image = collection.products.first.featured_image
+          # Slot 1
+          assign coll_1 = block.settings.collection_1
+          if coll_1 == blank
+            assign coll_1 = block.settings.collection
+          endif
+          assign label_1 = block.settings.pill_1 | default: coll_1.title | default: 'Pure Lawn'
+          assign url_1 = coll_1.url | default: '#'
+          assign img_1 = block.settings.image_1 | default: coll_1.image | default: coll_1.products.first.featured_image
+
+          # Slot 2
+          assign coll_2 = block.settings.collection_2
+          assign label_2 = block.settings.pill_2
+          if label_2 == blank and coll_2 != blank
+            assign label_2 = coll_2.title
+          endif
+          assign url_2 = coll_2.url | default: '#'
+          assign img_2 = block.settings.image_2 | default: coll_2.image | default: coll_2.products.first.featured_image
+
+          # Slot 3
+          assign coll_3 = block.settings.collection_3
+          assign label_3 = block.settings.pill_3
+          if label_3 == blank and coll_3 != blank
+            assign label_3 = coll_3.title
+          endif
+          assign url_3 = coll_3.url | default: '#'
+          assign img_3 = block.settings.image_3 | default: coll_3.image | default: coll_3.products.first.featured_image
+
+          # Count available slides
+          assign slide_count = 1
+          if label_2 != blank or img_2 != blank
+            assign slide_count = 2
+          endif
+          if label_3 != blank or img_3 != blank
+            assign slide_count = 3
           endif
         %}
 
-        <div class="cat-feature-card" {{ block.shopify_attributes }}>
-          <a href="{{ card_url }}" class="cat-feature-card__overlay-link" aria-label="{{ card_title }}">
+        <div
+          class="cat-feature-card"
+          data-cat-card
+          data-slide-count="{{ slide_count }}"
+          data-interval="{{ section.settings.autoplay_interval | default: 4 }}"
+          {{ block.shopify_attributes }}
+        >
+          <a href="{{ url_1 }}" class="cat-feature-card__overlay-link" data-card-link aria-label="{{ card_title }}">
             {{ card_title }}
           </a>
 
@@ -324,7 +401,7 @@
               {% endif %}
             </div>
 
-            <a href="{{ card_url }}" class="cat-feature-card__btn" aria-label="Explore {{ card_title }}">
+            <a href="{{ url_1 }}" class="cat-feature-card__btn" data-arrow-btn aria-label="Explore {{ card_title }}">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
@@ -332,34 +409,100 @@
             </a>
           </div>
 
-          <!-- Feature / Spec Pills -->
-          {% if block.settings.pill_1 != blank or block.settings.pill_2 != blank or block.settings.pill_3 != blank %}
-            <div class="cat-feature-card__pills">
-              {% if block.settings.pill_1 != blank %}
-                <span class="cat-feature-card__pill">{{ block.settings.pill_1 }}</span>
-              {% endif %}
-              {% if block.settings.pill_2 != blank %}
-                <span class="cat-feature-card__pill">{{ block.settings.pill_2 }}</span>
-              {% endif %}
-              {% if block.settings.pill_3 != blank %}
-                <span class="cat-feature-card__pill cat-feature-card__pill--highlight">{{ block.settings.pill_3 }}</span>
-              {% endif %}
-            </div>
-          {% endif %}
+          <!-- Feature / Spec Pills (Interactive Carousel Controls) -->
+          <div class="cat-feature-card__pills">
+            {% if label_1 != blank %}
+              <button
+                type="button"
+                class="cat-feature-card__pill cat-feature-card__pill--highlight"
+                data-pill-index="0"
+                data-url="{{ url_1 }}"
+              >
+                {{ label_1 }}
+              </button>
+            {% endif %}
 
-          <!-- Central Image -->
+            {% if label_2 != blank %}
+              <button
+                type="button"
+                class="cat-feature-card__pill"
+                data-pill-index="1"
+                data-url="{{ url_2 }}"
+              >
+                {{ label_2 }}
+              </button>
+            {% endif %}
+
+            {% if label_3 != blank %}
+              <button
+                type="button"
+                class="cat-feature-card__pill"
+                data-pill-index="2"
+                data-url="{{ url_3 }}"
+              >
+                {{ label_3 }}
+              </button>
+            {% endif %}
+          </div>
+
+          <!-- Central Image Stack with Smooth Fade -->
           <div class="cat-feature-card__media">
-            {% if card_image != blank %}
+            {% if img_1 != blank %}
               {{
-                card_image
+                img_1
+                | image_url: width: 900
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'cat-feature-card__img is-active',
+                  data-image-index: '0',
+                  alt: label_1
+              }}
+            {% else %}
+              {{ 'collection-1' | placeholder_svg_tag: 'cat-feature-card__placeholder is-active' }}
+            {% endif %}
+
+            {% if img_2 != blank %}
+              {{
+                img_2
                 | image_url: width: 900
                 | image_tag:
                   loading: 'lazy',
                   class: 'cat-feature-card__img',
-                  alt: card_title
+                  data-image-index: '1',
+                  alt: label_2
               }}
-            {% else %}
-              {{ 'collection-1' | placeholder_svg_tag: 'cat-feature-card__placeholder' }}
+            {% elsif label_2 != blank and img_1 != blank %}
+              {{
+                img_1
+                | image_url: width: 900
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'cat-feature-card__img',
+                  data-image-index: '1',
+                  alt: label_2
+              }}
+            {% endif %}
+
+            {% if img_3 != blank %}
+              {{
+                img_3
+                | image_url: width: 900
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'cat-feature-card__img',
+                  data-image-index: '2',
+                  alt: label_3
+              }}
+            {% elsif label_3 != blank and img_1 != blank %}
+              {{
+                img_1
+                | image_url: width: 900
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'cat-feature-card__img',
+                  data-image-index: '2',
+                  alt: label_3
+              }}
             {% endif %}
           </div>
 
@@ -402,6 +545,111 @@
     </div>
   </div>
 </div>
+
+<script>
+  (function() {
+    function initCategoryFeatureCards() {
+      const cards = document.querySelectorAll('[data-cat-card]');
+      cards.forEach(card => {
+        if (card.dataset.initialized === 'true') return;
+        card.dataset.initialized = 'true';
+
+        const pills = card.querySelectorAll('[data-pill-index]');
+        const images = card.querySelectorAll('[data-image-index]');
+        const cardLink = card.querySelector('[data-card-link]');
+        const arrowBtn = card.querySelector('[data-arrow-btn]');
+        const slideCount = parseInt(card.dataset.slideCount || pills.length, 10);
+        const intervalSeconds = parseInt(card.dataset.interval || 4, 10);
+
+        if (slideCount <= 1 || pills.length <= 1) return;
+
+        let currentIndex = 0;
+        let timer = null;
+        let isHovered = false;
+
+        function goToSlide(index) {
+          currentIndex = index;
+
+          // Highlight the active pill and un-highlight others
+          pills.forEach((pill, i) => {
+            if (i === currentIndex) {
+              pill.classList.add('cat-feature-card__pill--highlight');
+            } else {
+              pill.classList.remove('cat-feature-card__pill--highlight');
+            }
+          });
+
+          // Show corresponding image with smooth cross-fade
+          images.forEach((img, i) => {
+            if (i === currentIndex) {
+              img.classList.add('is-active');
+            } else {
+              img.classList.remove('is-active');
+            }
+          });
+
+          // Update destination link to active collection
+          const activePill = pills[currentIndex];
+          if (activePill && activePill.dataset.url) {
+            const newUrl = activePill.dataset.url;
+            if (cardLink) cardLink.setAttribute('href', newUrl);
+            if (arrowBtn) arrowBtn.setAttribute('href', newUrl);
+          }
+        }
+
+        function startAutoplay() {
+          stopAutoplay();
+          timer = setInterval(() => {
+            if (!isHovered) {
+              const nextIndex = (currentIndex + 1) % slideCount;
+              goToSlide(nextIndex);
+            }
+          }, intervalSeconds * 1000);
+        }
+
+        function stopAutoplay() {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+        }
+
+        // Click / Mouseenter on pills
+        pills.forEach((pill, i) => {
+          pill.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            goToSlide(i);
+            startAutoplay();
+          });
+
+          pill.addEventListener('mouseenter', () => {
+            goToSlide(i);
+          });
+        });
+
+        // Pause rotation while mouse hovers over card
+        card.addEventListener('mouseenter', () => {
+          isHovered = true;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          isHovered = false;
+        });
+
+        startAutoplay();
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCategoryFeatureCards);
+    } else {
+      initCategoryFeatureCards();
+    }
+
+    document.addEventListener('shopify:section:load', initCategoryFeatureCards);
+  })();
+</script>
 
 {% schema %}
 {
@@ -461,6 +709,16 @@
     },
     {
       "type": "range",
+      "id": "autoplay_interval",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "unit": "s",
+      "label": "Auto-rotate interval (seconds)",
+      "default": 4
+    },
+    {
+      "type": "range",
       "id": "padding_top",
       "min": 0,
       "max": 100,
@@ -486,49 +744,86 @@
       "name": "Category Card",
       "settings": [
         {
-          "type": "collection",
-          "id": "collection",
-          "label": "Select Collection (Dynamic)"
+          "type": "header",
+          "content": "Card Overview"
         },
         {
           "type": "text",
           "id": "title",
-          "label": "Title Override (optional)",
-          "info": "Leave blank to automatically use the selected collection title"
+          "label": "Card Heading",
+          "default": "Clothing"
         },
         {
           "type": "text",
           "id": "subtitle",
-          "label": "Subtitle / Tagline",
+          "label": "Card Subtitle / Tagline",
           "default": "Signature Embroidered Luxury"
         },
         {
-          "type": "image_picker",
-          "id": "custom_image",
-          "label": "Custom Image (optional)",
-          "info": "Leave blank to automatically use collection image"
+          "type": "header",
+          "content": "Collection Tag 1"
         },
         {
-          "type": "header",
-          "content": "Feature / Spec Pills"
+          "type": "collection",
+          "id": "collection_1",
+          "label": "Select Collection 1"
         },
         {
           "type": "text",
           "id": "pill_1",
-          "label": "Pill 1",
-          "default": "Pure Lawn"
+          "label": "Tag 1 Label",
+          "default": "Pure Lawn",
+          "info": "Leave blank to use Collection 1 title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image 1 Override (optional)",
+          "info": "Leave blank to use Collection 1 image or first product image"
+        },
+        {
+          "type": "header",
+          "content": "Collection Tag 2"
+        },
+        {
+          "type": "collection",
+          "id": "collection_2",
+          "label": "Select Collection 2"
         },
         {
           "type": "text",
           "id": "pill_2",
-          "label": "Pill 2",
-          "default": "Stitched 2 & 3pc"
+          "label": "Tag 2 Label",
+          "default": "Stitched 2 & 3pc",
+          "info": "Leave blank to use Collection 2 title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2 Override (optional)",
+          "info": "Leave blank to use Collection 2 image or first product image"
+        },
+        {
+          "type": "header",
+          "content": "Collection Tag 3"
+        },
+        {
+          "type": "collection",
+          "id": "collection_3",
+          "label": "Select Collection 3"
         },
         {
           "type": "text",
           "id": "pill_3",
-          "label": "Pill 3 (Highlighted Dark)",
-          "default": "Ready to Ship"
+          "label": "Tag 3 Label",
+          "default": "Asim Jofa & More",
+          "info": "Leave blank to use Collection 3 title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image 3 Override (optional)",
+          "info": "Leave blank to use Collection 3 image or first product image"
         },
         {
           "type": "header",
@@ -538,19 +833,19 @@
           "type": "text",
           "id": "highlight_title",
           "label": "Bottom Highlight Title",
-          "default": "Worth to Buy"
+          "default": "Bestselling Collection"
         },
         {
           "type": "text",
           "id": "stat_sold",
           "label": "Sold Metric",
-          "default": "5k+ sold"
+          "default": "8.5k+ sold"
         },
         {
           "type": "text",
           "id": "stat_wishlisted",
           "label": "Wishlisted Metric",
-          "default": "4k+ wishlisted"
+          "default": "4.2k+ wishlisted"
         },
         {
           "type": "text",
